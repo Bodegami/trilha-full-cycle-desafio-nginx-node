@@ -1,21 +1,12 @@
-import express from 'express';
-import * as querys from './repository/PeopleRepository.js';
+const express = require("express")
+const bodyParser = require("body-parser")
+const peopleRoutes = require("./routes/people.js")
+const PORT = process.env.PORT || 3000
 
-const app = express()
-const port = 3000
 
+var app = express()
+app.use(bodyParser.json())
 
-let nomes = querys.findAllPersons();
+app.use("/", peopleRoutes)
 
-app.get('/', (req, res) => {
-    querys.createPersona();
-    res.send(`<h1>Full Cycle Rocks!</h1> <p>${nomes.toString()}</p>`)
-})
-
-app.get('/hello', (req, res) => {
-    res.send(`<h1>Olá Mundo!</h1>`)
-})
-
-app.listen(port, () => {
-    console.log(`Rodando na porta ${port}`)
-})
+app.listen(PORT);
