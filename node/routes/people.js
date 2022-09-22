@@ -1,9 +1,10 @@
 const express = require('express')
 const Router = express.Router();
-const mysqlConnection = require("../repository/connection.js")
+const { connectionDB } = require("../repository/connection.js")
 const { geradorNome } = require('gerador-nome')  
 
-Router.get("/", (req, res) => {
+Router.get("/", async (req, res) => {
+    const mysqlConnection = await connectionDB();
     let nomeAleatorio = geradorNome()
     mysqlConnection.query(`INSERT INTO people(name) VALUES('${nomeAleatorio}')`, (err) => {
         if(!err) {

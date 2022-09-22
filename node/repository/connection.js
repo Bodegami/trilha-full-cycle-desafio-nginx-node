@@ -6,16 +6,18 @@ const config = ({
     password: 'example',
     database: 'nodedb'
 });
-const mysqlConnection = mysql.createConnection(config);
 
-mysqlConnection.connect((err) => {
-    if(!err) {
-        console.log("Connected!")
-    }
-    else {
-        console.log("Connection failed..")
-        console.log(err.message)
-    }
-})
 
-module.exports = mysqlConnection;
+async function connectionDB() {
+    const connection = await mysql.createConnection(config);
+    console.log('Conectado ao banco!');
+    return connection;
+}
+
+async function createTable() {
+    const sql = 'CREATE TABLE IF NOT EXISTS people(id int auto_increment primary key, name varchar(255) )';
+    const connection = await connectionDB();
+    await connection.query(sql)
+}
+
+module.exports = { connectionDB, createTable };
