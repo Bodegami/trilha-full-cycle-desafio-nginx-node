@@ -4,7 +4,7 @@ services:
 
   db:
     image: mysql:5.7
-    command: --innodb-use-native-aio=0 
+    command: --innodb-use-native-aio=0 #--initialize-insecure --explicit_defaults_for_timestamp
     container_name: db
     restart: always
     tty: true
@@ -17,13 +17,13 @@ services:
 
   app:
     build:
-      context: node
+      context: ./node
       dockerfile: Dockerfile
     container_name: app
-    entrypoint: dockerize -wait tcp://db:3306 -timeout 40s docker-entrypoint.sh
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
     command: npm start
-    #volumes:
-    #  - ./node:/usr/src/app
+    volumes:
+      - ./node:/usr/src/app
     tty: true
     ports:
       - 3000
@@ -35,7 +35,7 @@ services:
 
   nginx:
     build: 
-      context: nginx
+      context: ./nginx
       dockerfile: Dockerfile
     image: nginx:1.17.10
     container_name: nginx

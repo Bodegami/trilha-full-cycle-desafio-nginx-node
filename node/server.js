@@ -5,12 +5,12 @@ const { createTable } = require("./repository/connection.js")
 const PORT = process.env.PORT || 3000
 
 
-var app = express()
-app.use(bodyParser.json())
+var app = express();
+app.use(bodyParser.json());
 
-app.use("/", peopleRoutes)
+app.use("/", peopleRoutes);
 
-app.listen(PORT, () => {
-    createTable();
-    console.log("Tabela people criada com sucesso!")
+app.listen(PORT, async () => {
+    await createTable();
+    console.log("Tabela people criada com sucesso!");
 });
