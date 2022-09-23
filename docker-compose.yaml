@@ -40,6 +40,8 @@ services:
     image: nginx:1.17.10
     container_name: nginx
     hostname: nginx
+    volumes:
+      - ./nginx/logs:/var/log/nginx
     ports:
       - 8080:80
     networks:
